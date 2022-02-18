@@ -1,10 +1,11 @@
 import React from "react";
 import { Map, Polygon, GoogleApiWrapper } from "google-maps-react";
 import togeojson from "@mapbox/togeojson";
-import { averageGeolocation } from "../helper";
+import { averageGeolocation, getBounds, getBoundsZoomLevel } from "../helpers";
 export class MapContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
     this.state = {
       areas: [],
       zoom: 8,
@@ -23,17 +24,38 @@ export class MapContainer extends React.Component {
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kml, "text/xml");
         const json = togeojson.kml(kmlDoc);
-        this.setState({
-          areas: json.features,
-          poly: json.features.map((area, index) => {
-            if (index === 0) {
-              this.setState({
-                center: {
-                  lng: area.geometry.coordinates[0][0][0],
-                  lat: area.geometry.coordinates[0][0][1],
-                },
+        const initalCenter = averageGeolocation(
+          json.features.map((feature) => {
+            return averageGeolocation(
+              feature.geometry.coordinates[0].map((coord) => {
+                return { lat: coord[1], lng: coord[0] };
+              })
+            );
+          })
+        );
+
+        const bounds = getBounds(
+          json.features
+            .map((feature) => {
+              return feature.geometry.coordinates[0].map((coord) => {
+                return { lat: coord[1], lng: coord[0] };
               });
-            }
+            })
+            .flat()
+        );
+
+        const { clientHeight, clientWidth } = this.myRef.current.mapRef.current;
+
+        const zoom = getBoundsZoomLevel(bounds, {
+          width: clientWidth,
+          height: clientHeight,
+        });
+
+        this.setState({
+          center: initalCenter,
+          zoom: zoom,
+          areas: json.features,
+          poly: json.features.map((area) => {
             return area.geometry.coordinates[0].map((coord) => {
               return { lat: coord[1], lng: coord[0] };
             });
@@ -70,6 +92,7 @@ export class MapContainer extends React.Component {
         google={this.props.google}
         zoom={this.state.zoom}
         center={this.state.center}
+        ref={this.myRef}
       >
         {this.state.poly.map((coord, index) => {
           return (
