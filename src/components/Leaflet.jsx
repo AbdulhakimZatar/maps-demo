@@ -73,7 +73,7 @@ function App({ selectedProject }) {
       });
 
       setCenter([areaCenter.lat, areaCenter.lng]);
-      setZoom(10);
+      setZoom(zoom);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProject]);

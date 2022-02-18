@@ -53,10 +53,6 @@ export const getBounds = (coords) => {
     ne: { lat: maxLat, lng: maxLng },
     sw: { lat: minLat, lng: minLng },
   };
-  return {
-    // nw: { lat: maxLat, lng: minLng },
-    // se: { lat: minLat, lng: maxLng },
-  };
 };
 
 export const getBoundsZoomLevel = (bounds, mapDim) => {
