@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Google from "./components/Google";
+import Home from "./components/Home";
+import Leaflet from "./components/Leaflet";
+import Shell from "./components/Shell";
 
 function App() {
+
+  const [selectedProject, setSelectedProject] = useState({ id: 99, timestamp: Date.now() });
+
+  const handleGoTo = (id) => {
+    setSelectedProject({ id, timestamp: Date.now() });
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <Shell goTo={handleGoTo}>
+        <Routes>
+          <Route exact path="/google" element={<Google selectedProject={selectedProject} />} />
+          <Route exact path="/leaflet" element={<Leaflet selectedProject={selectedProject} />} />
+          <Route exact path="/" element={<Home />} />
+        </Routes>
+      </ Shell>
+    </Router>
+  )
 }
 
-export default App;
+export default App
