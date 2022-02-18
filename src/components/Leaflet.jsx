@@ -58,6 +58,20 @@ function App({ selectedProject }) {
           return { lat: coord[1], lng: coord[0] };
         })
       );
+
+      const bounds = getBounds(
+        areas[selectedProject.id].geometry.coordinates[0].map((coord) => {
+          return { lat: coord[1], lng: coord[0] };
+        })
+      );
+
+      const { clientHeight, clientWidth } = document.getElementById("map");
+
+      const zoom = getBoundsZoomLevel(bounds, {
+        width: clientWidth,
+        height: clientHeight,
+      });
+
       setCenter([areaCenter.lat, areaCenter.lng]);
       setZoom(10);
     }

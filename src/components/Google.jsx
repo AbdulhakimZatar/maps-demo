@@ -76,12 +76,28 @@ export class MapContainer extends React.Component {
           return { lat: coord[1], lng: coord[0] };
         })
       );
+
+      const bounds = getBounds(
+        this.state.areas[
+          this.props.selectedProject.id
+        ].geometry.coordinates[0].map((coord) => {
+          return { lat: coord[1], lng: coord[0] };
+        })
+      );
+
+      const { clientHeight, clientWidth } = this.myRef.current.mapRef.current;
+
+      const zoom = getBoundsZoomLevel(bounds, {
+        width: clientWidth,
+        height: clientHeight,
+      });
+
       this.setState({
         center: {
           lng: areaCenter.lng,
           lat: areaCenter.lat,
         },
-        zoom: 10,
+        zoom: zoom,
       });
     }
   }
