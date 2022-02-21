@@ -41,6 +41,12 @@ export const Sidebar = ({ goTo }) => (
             icon={FiMap}
             aria-current="page"
           />
+          <NavButton
+            link="/cesium"
+            label="Cesium"
+            icon={FiMap}
+            aria-current="page"
+          />
         </Stack>
         {useLocation().pathname !== "/" && (
           <Stack>
