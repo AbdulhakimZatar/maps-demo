@@ -3,7 +3,7 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import * as turf from "@turf/turf";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
-
+mapboxgl.id = "mapbox-satellite-v9";
 function Mapbox() {
   const mapContainer = useRef(null);
   const map = useRef(null);
