@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Leaflet from "./components/Leaflet";
 import Cesium from "./components/Cesium";
 import Shell from "./components/Shell";
+import Mapbox from "./components/Mapbox";
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="leaflet" element={<Leaflet selectedProject={selectedProject} />} />
         </Route>
         <Route exact path="/cesium" element={<Cesium />} />
+        <Route exact path="/mapbox" element={<Mapbox />} />
       </Routes>
     </Router>
   )
